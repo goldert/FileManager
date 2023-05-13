@@ -20,5 +20,5 @@ public class Permission {
     private PermissionLevel permissionLevel;
 
     @Column(name = "group_id")
-    private String permissionGroup;
+    private Long permissionGroup;
 }

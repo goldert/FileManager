@@ -10,4 +10,6 @@ import java.util.List;
 public interface PermissionRepository extends JpaRepository<Permission, Long> {
 
     List<Permission> findAllBy();
+
+    Permission findByUserEmail(String user_email);
 }

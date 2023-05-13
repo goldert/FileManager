@@ -29,9 +29,9 @@ public class ItemController {
     }
 
     @PostMapping("/folder")
-    public @ResponseBody ResponseEntity<?> createFolder(@RequestBody FolderDto folderDto) {
+    public @ResponseBody ResponseEntity<?> createFolder(@RequestBody FolderDto folderDto, @RequestHeader String user_email) {
         try {
-            return new ResponseEntity<>(itemService.createFolder(folderDto), HttpStatus.OK);
+            return new ResponseEntity<>(itemService.createFolder(folderDto, user_email), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

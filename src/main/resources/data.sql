@@ -21,3 +21,7 @@ VALUES ( 1, 0, 'ahmedraa@live.com');
 INSERT INTO public.permissions(
      group_id, permission_level, user_email)
 VALUES ( 1, 1, 'ahmad@gmail.com');
+
+INSERT INTO public.permissions(
+    group_id, permission_level, user_email)
+VALUES ( 122, 1, 'ahmad@live.com');

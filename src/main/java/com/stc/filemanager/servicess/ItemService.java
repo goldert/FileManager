@@ -4,11 +4,14 @@ import com.stc.filemanager.dto.FolderDto;
 import com.stc.filemanager.dto.SpaceDTO;
 import com.stc.filemanager.entities.File;
 import com.stc.filemanager.entities.Item;
+import com.stc.filemanager.entities.Permission;
 import com.stc.filemanager.entities.PermissionGroup;
 import com.stc.filemanager.enums.ItemType;
+import com.stc.filemanager.enums.PermissionLevel;
 import com.stc.filemanager.repositories.FileRepository;
 import com.stc.filemanager.repositories.ItemRepository;
 import com.stc.filemanager.repositories.PermissionGroupRepository;
+import com.stc.filemanager.repositories.PermissionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,9 @@ public class ItemService {
     PermissionGroupRepository permissionGroupRepository;
 
     @Autowired
+    PermissionRepository permissionRepository;
+
+    @Autowired
     FileRepository fileRepository;
 
     public Item createSpace(SpaceDTO spaceDTO) throws Exception {
@@ -42,10 +48,26 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public Item createFolder(FolderDto folderDto) throws Exception {
+    public Item createFolder(FolderDto folderDto, String user_email) throws Exception {
+        // Applying security
+        Permission permission = permissionRepository.findByUserEmail(user_email);
+        if (permission == null) {
+            throw new Exception("User is incorrect!");
+        }
+
         List<Item> isParentExist = itemRepository.findAllByIdAndType(folderDto.getParentId(), ItemType.SPACE);
         if (isParentExist.size() == 0) {
             throw new Exception("Parent doesn't exit");
+        }
+
+        Item parentGroupId = itemRepository.findById(folderDto.getParentId());
+        if (permission.getPermissionLevel().equals(PermissionLevel.VIEW) || !permission.getPermissionGroup().equals(parentGroupId.getPermissionGroupId())) {
+            throw new Exception("User is not authorised");
+        }
+
+        Optional<PermissionGroup> isGroupExist = permissionGroupRepository.findById(folderDto.getPermissionGroupId());
+        if (isGroupExist.isEmpty()) {
+            throw new Exception("Group id is incorrect!");
         }
 
         ModelMapper modelMapper = new ModelMapper();
