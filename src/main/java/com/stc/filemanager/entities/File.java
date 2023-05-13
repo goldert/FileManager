@@ -1,7 +1,9 @@
 package com.stc.filemanager.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "files")
 public class File {
@@ -10,11 +12,10 @@ public class File {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-
         @Column(name = "file")
         private byte[] binary;
 
-//        @OneToOne(fetch = FetchType.LAZY)
-//        @JoinColumn(name = "item_id")
-//        private Item item;
+        @Column(name = "item_id")
+        private Long item;
+
 }
