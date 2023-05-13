@@ -1,10 +1,14 @@
 package com.stc.filemanager.entities;
 
+import com.stc.filemanager.enums.PermissionLevel;
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "permissions")
 public class Permission {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,14 +17,8 @@ public class Permission {
     private String userEmail;
 
     @Column(name = "permission_level")
-    private String permissionLevel;
+    private PermissionLevel permissionLevel;
 
     @Column(name = "group_id")
     private String permissionGroup;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "group_id")
-//    private PermissionGroup permissionGroup;
-
-    // getters and setters
 }

@@ -3,7 +3,6 @@ package com.stc.filemanager.controllers;
 
 import com.stc.filemanager.dto.FolderDto;
 import com.stc.filemanager.dto.SpaceDTO;
-import com.stc.filemanager.entities.Item;
 import com.stc.filemanager.servicess.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

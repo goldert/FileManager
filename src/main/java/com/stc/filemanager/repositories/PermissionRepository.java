@@ -4,10 +4,10 @@ import com.stc.filemanager.entities.Permission;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface PermissionRepository extends JpaRepository<Permission, Long> {
-  //  Optional<Permission> findByUserEmailAndItem(String userEmail, Item item);
- //   List<Permission> findByItem(Item item);
 
-  Permission findAllById(Long spaceId);
+  List<Permission> findAllBy();
 }
