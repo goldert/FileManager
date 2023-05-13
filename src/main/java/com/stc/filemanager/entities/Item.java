@@ -28,8 +28,14 @@ public class Item {
     @Column(name = "permissionGroupId")
     private Long permissionGroupId;
 
+    public Item() {
+    }
 
-//    @OneToMany(mappedBy = "space")
+    public Item(Long parentId, String name) {
+        this.parentId = parentId;
+        this.name = name;
+    }
+    //    @OneToMany(mappedBy = "space")
 //    private List<Folder> folders;
 
 //    public Space() {}

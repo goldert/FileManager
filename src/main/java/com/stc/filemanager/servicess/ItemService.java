@@ -59,43 +59,10 @@ public class ItemService {
         File fileEntity = new File();
         fileEntity.setBinary(file.getBytes());
         fileEntity.setItem(newRecord.getId());
-         fileRepository.save(fileEntity);
+        fileRepository.save(fileEntity);
     }
 
-    public Item getSpace(Long spaceId) {
-//        PermissionGroup group = permissionGroupRepository.findByGroupName(groupName);
-//        if (group == null) {
-//            throw new NotFoundException("Permission group not found");
-//        }
-//        Item space = new Item(ItemType.SPACE, name);
-//        space.setPermissionGroup(group);
-//        itemRepository.save(space);
-//        return new SpaceDto(space);
-
-        return itemRepository.findAllById(spaceId);
+    public List<Item> getItems() {
+        return itemRepository.findAllBy();
     }
-
-
-//    public FolderDto createFolder(Long spaceId, String name) {
-//        Item space = itemRepository.findByIdAndType(spaceId, ItemType.SPACE);
-//        if (space == null) {
-//            throw new NotFoundException("Space not found");
-//        }
-//        Folder folder = new Folder(name);
-//        folder.setParent(space);
-//        itemRepository.save(folder);
-//        return new FolderDto(folder);
-//    }
-
-
-//    public FileDto createFile(Long folderId, String name, byte[] binary) {
-//        Item folder = itemRepository.findByIdAndType(folderId, ItemType.FOLDER);
-//        if (folder == null) {
-//            throw new NotFoundException("Folder not found");
-//        }
-//        File file = new File(name, binary);
-//        file.setParent(folder);
-//        itemRepository.save(file);
-//        return new FileDto(file);
-//    }
 }

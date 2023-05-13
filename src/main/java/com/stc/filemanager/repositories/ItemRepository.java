@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface ItemRepository extends  JpaRepository<Item, Integer> {
 
-    Item findAllById(Long spaceId);
+    List<Item> findAllBy();
 
     List<Item> findAllByIdAndType(Long parentId, ItemType type);
 
