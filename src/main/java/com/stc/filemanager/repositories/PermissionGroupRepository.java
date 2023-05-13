@@ -9,5 +9,4 @@ import java.util.Optional;
 @Repository
 public interface PermissionGroupRepository extends JpaRepository<PermissionGroup, Long> {
     Optional<PermissionGroup> findById(Long id);
-//    List<Permission> findByItem(Item item);
 }

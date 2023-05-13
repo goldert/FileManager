@@ -4,15 +4,18 @@ import com.stc.filemanager.dto.FolderDto;
 import com.stc.filemanager.dto.SpaceDTO;
 import com.stc.filemanager.entities.File;
 import com.stc.filemanager.entities.Item;
+import com.stc.filemanager.entities.PermissionGroup;
 import com.stc.filemanager.enums.ItemType;
 import com.stc.filemanager.repositories.FileRepository;
 import com.stc.filemanager.repositories.ItemRepository;
+import com.stc.filemanager.repositories.PermissionGroupRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -21,11 +24,20 @@ public class ItemService {
     ItemRepository itemRepository;
 
     @Autowired
+    PermissionGroupRepository permissionGroupRepository;
+
+    @Autowired
     FileRepository fileRepository;
 
-    public Item createSpace(SpaceDTO spaceDTO) {
+    public Item createSpace(SpaceDTO spaceDTO) throws Exception {
+        Optional<PermissionGroup> isGroupExist = permissionGroupRepository.findById(spaceDTO.getPermissionGroupId());
+        if (isGroupExist.isEmpty()) {
+            throw new Exception("Group id is incorrect!");
+        }
+
         ModelMapper modelMapper = new ModelMapper();
         Item item = modelMapper.map(spaceDTO, Item.class);
+        item.setId(0L);
         item.setType(ItemType.SPACE);
         return itemRepository.save(item);
     }
