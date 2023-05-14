@@ -12,6 +12,7 @@ public class File {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
+        @Lob
         @Column(name = "file")
         private byte[] binary;
 
