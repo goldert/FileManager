@@ -38,9 +38,9 @@ public class ItemController {
     }
 
     @PostMapping(path = "file/{parentId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public @ResponseBody ResponseEntity<?> createFile(@PathVariable Long parentId, @RequestParam("file") MultipartFile file) {
+    public @ResponseBody ResponseEntity<?> createFile(@PathVariable Long parentId, @RequestParam("file") MultipartFile file, @RequestHeader String user_email) {
         try {
-            itemService.createFile(parentId, file);
+            itemService.createFile(parentId, file, user_email);
             return new ResponseEntity<>("", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

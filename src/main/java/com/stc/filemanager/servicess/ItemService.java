@@ -77,10 +77,21 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public void createFile(Long parentId, MultipartFile file) throws Exception {
+    public void createFile(Long parentId, MultipartFile file, String user_email) throws Exception {
+        // Applying security
+        Permission permission = permissionRepository.findByUserEmail(user_email);
+        if (permission == null) {
+            throw new Exception("User is incorrect!");
+        }
+
         List<Item> isParentExist = itemRepository.findAllByIdAndType(parentId, ItemType.FOLDER);
         if (isParentExist.size() == 0) {
             throw new Exception("Parent doesn't exit");
+        }
+
+        Item parentGroupId = itemRepository.findById(parentId);
+        if (permission.getPermissionLevel().equals(PermissionLevel.VIEW) || !permission.getPermissionGroup().equals(parentGroupId.getPermissionGroupId())) {
+            throw new Exception("User is not authorised");
         }
 
         Item item  = new Item();
@@ -88,11 +99,13 @@ public class ItemService {
         item.setParentId(parentId);
         item.setType(ItemType.FILE);
         item.setName(file.getOriginalFilename());
-        Item newRecord = itemRepository.save(item);
+        item.setPermissionGroupId(permission.getPermissionGroup());
+
+        Item fileMetadata = itemRepository.save(item);
 
         File fileEntity = new File();
         fileEntity.setBinary(file.getBytes());
-        fileEntity.setItem(newRecord.getId());
+        fileEntity.setItem(fileMetadata.getId());
         fileRepository.save(fileEntity);
     }
 
